@@ -1,1 +1,1 @@
-alias git-yesterday='git log --oneline -8 --author <unix name here> --until=date.midnight'
+alias git-yesterday='git log --oneline -8 --decortate --author <unix name here> --since=yesterday.midnight'
