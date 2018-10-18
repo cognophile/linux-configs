@@ -1,0 +1,15 @@
+[alias]
+        st = status
+        cm = commit -m
+        co = checkout
+        br = branch
+        ri = rebase --interactive
+        aa = add --all
+        au = add --update
+        po = push origin
+        pd = pull origin
+        pu = push --set-upstream origin
+        sl = log --pretty=oneline --abbrev-commit -15
+        yesterday = log --oneline -8 --decorate --author <unix-user> --since=yesterday.midnight
+        dm = merge --no-commit --no-ff
+        unprm = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
