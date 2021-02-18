@@ -4,12 +4,20 @@
         co = checkout
         br = branch
         ri = rebase --interactive
+        a  = add
         aa = add --all
         au = add --update
+        ai = add --patch
         po = push origin
         pd = pull origin
         pu = push --set-upstream origin
         sl = log --pretty=oneline --abbrev-commit -15
-        yesterday = log --oneline -8 --decorate --author <unix-user> --since=yesterday.midnight
+        mff = merge --ff-only
+        yesterday = log --oneline -8 --decorate --author <username> --since=yesterday.midnight
         dm = merge --no-commit --no-ff
+        # Unset permissions changes (eg. 644 -> 755)
         unprm = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
+        sh = stash
+        shp = stash pop
+        refresh = !git checkout $1 && git pull && git checkout $2 && git pull && :
+        aliases = config --get-regexp alias
