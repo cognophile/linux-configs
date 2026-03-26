@@ -1,23 +1,45 @@
 [alias]
-        st = status
-        cm = commit -m
-        co = checkout
-        br = branch
-        ri = rebase --interactive
-        a  = add
-        aa = add --all
-        au = add --update
-        ai = add --patch
-        po = push origin
-        pd = pull origin
-        pu = push --set-upstream origin
-        sl = log --pretty=oneline --abbrev-commit -15
-        mff = merge --ff-only
-        yesterday = log --oneline -8 --decorate --author <username> --since=yesterday.midnight
-        dm = merge --no-commit --no-ff
-        # Unset permissions changes (eg. 644 -> 755)
-        unprm = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
-        sh = stash
-        shp = stash pop
-        refresh = !git checkout $1 && git pull && git checkout $2 && git pull && :
-        aliases = config --get-regexp alias
+        st = status
+        cm = commit -m
+        ca = commit --amend --no-edit
+        cae = commit --amend
+        co = checkout
+        rb = branch -m
+        nb = checkout -B
+        db = branch -D
+        s = switch
+        br = branch
+        rn = "!f() { git branch -m $(git rev-parse --abbrev-ref HEAD) \"$1\"; }; f"
+        ri = rebase --interactive
+        a  = add
+        aa = add --all
+        au = add --update
+        ai = add --patch
+        po = push origin
+        pd = pull origin
+        pu = push --set-upstream origin
+        puc = "!git push --set-upstream origin \"$(git rev-parse --abbrev-ref HEAD)\"" # ?
+        sl = log --pretty=oneline --abbrev-commit -15
+        cln = git stash save --keep-index --include-untracked
+        cln-t = clean -nd
+        cln-d = clean -fd
+        cln-x = clean -xfd
+        cln-tsconf = restore . && git clean -Xdf --exclude="Widgets/tsconfig"
+        sh = stash
+        sh-ut = stash --include-untracked
+        sh-us = stash --keep-index
+        shp = stash pop
+        mnf = merge --no-ff
+        dm = merge --no-commit --no-ff
+        mff = merge --ff-only
+        yesterday = log --oneline -8 --decorate --author [AUTHOR] --since=yesterday.midnight
+        unprm = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply # Unset permissions changes (eg. 644 -> 755)
+        refresh = !git checkout $1 && git pull && git checkout $2 && git pull && : # refresh two trunk branches
+        aliases = config --get-regexp alias # display aliases
+        tidyup = branch | %{ $_.Trim() } | ?{ $_ -ne 'master' -and $_ -ne 'main' -and $_ -ne 'dev' } | %{ git branch -D $_ } # delete all branches which aren't master, main, or dev
+        itf = update-index --assume-unchanged
+        rtf = update-index --no-assume-unchanged
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
